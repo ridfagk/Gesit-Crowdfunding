@@ -16,17 +16,18 @@ $banner = BannerDonasi::find()
 
 
 <div class="card shadow mb-3 zoom">
-<a href="https://pa.ihf.or.id/pelatihan-online/detail?id=<?= $model->id?>" class="item-course" style="color:#343a40;text-decoration:none">
+<a href="http://localhost/gesit/site/detail?id=<?= $model->id?>" class="item-course" style="color:#343a40;text-decoration:none">
+    <div class="mt-3">
+        <center>
+            <?php
+                if (empty($banner)) {?>
+                    <img src="https://icons-for-free.com/iconfiles/png/512/gallery+image+landscape+mobile+museum+open+line+icon-1320183049020185924.png" width="200px" alt="">
 
-    <center>
-        <?php
-            if (empty($banner)) {?>
-                <img src="https://icons-for-free.com/iconfiles/png/512/gallery+image+landscape+mobile+museum+open+line+icon-1320183049020185924.png" width="200px" alt="">
-
-        <?php    } else{ ?>
-                <?= Html::img('@imageurl/admingesit/banner/'.$banner->banner,['width' => '300'],['class' => 'img-responsive'])?>
-        <?php    }  ?>
-    </center>
+            <?php    } else{ ?>
+                    <?= Html::img('@imageurl/admingesit/banner/'.$banner->banner,['width' => '300'],['class' => 'img-responsive'])?>
+            <?php    }  ?>
+        </center>
+    </div>
 
     <div class="card-body">
         <p style="font-weight:bold"><?= $model->title?></p>
