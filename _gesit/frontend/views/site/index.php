@@ -53,8 +53,8 @@ $this->title = 'My Yii Application';
             'pager' => ['class' => \kop\y2sp\ScrollPager::className(),
             'triggerText' => Yii::t('app', '<button class="btn btn-info">Lihat Lainnya <i class="fas fa-chevron-circle-down"></i></button>'),
             'triggerTemplate' => '<div class="col-md-12 ias-trigger mt-3" style="text-align: center; cursor: pointer;"><a>{text}</a></div>',
-            'noneLeftText' => Yii::t('app', 'Semua data pelatihan sudah ditampilkan<br>
-                                    <button onclick="topFunction()" id="myBtn" class="btn btn-info mt-2" title="Go to top">
+            'noneLeftText' => Yii::t('app', 'Semua data donasi sudah ditampilkan<br>
+                                    <button onclick="topFunction()" id="myBtn" class="btn btn-primary mt-2" title="Go to top">
                                     Kembali ke awal <i class="fas fa-chevron-circle-up"></i></button>'),
             'noneLeftTemplate' => '<div class="col-md-12 ias-trigger mt-3" style="text-align: center; cursor: pointer;color:orange;font-size:20px;"><a>{text}</a></div>',
             'spinnerSrc' => Yii::t('app', ''),

@@ -5,25 +5,27 @@ namespace backend\models;
 use Yii;
 
 /**
- * This is the model class for table "donasi".
+ * This is the model class for table "donasi_temp".
  *
  * @property int $id
- * @property int $id_program
- * @property int $id_donatur
- * @property string $id_invoice
- * @property string $nama
- * @property string $email
- * @property string $pesan
- * @property int $jumlah
+ * @property int|null $id_program
+ * @property int|null $id_donatur
+ * @property string|null $id_invoice
+ * @property string|null $nama
+ * @property string|null $email
+ * @property string|null $pesan
+ * @property int|null $buktitf_id
+ * @property string|null $buktitf
+ * @property int|null $jumlah
  */
-class Donasi extends \yii\db\ActiveRecord
+class DonasiTemp extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'donasi';
+        return 'donasi_temp';
     }
 
     /**
@@ -32,13 +34,11 @@ class Donasi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            //[['id_program', 'nama', 'email', 'pesan', 'jumlah'], 'required'],
             [['id_program', 'buktitf_id', 'id_donatur'], 'integer'],
-            
+            ['id_invoice', 'autonumber', 'format' => '{my}????'],
             [['jumlah'], 'string', 'min' => 5 , 'tooShort' => 'Nominal donasi minimal Rp. 10.000' ],
-            [['nama', 'order_id', 'payment_type', 'transaction_status', 'email', 'pesan', 'buktitf'], 'string'],
+            [['nama', 'email', 'pesan', 'buktitf'], 'string'],
             [['id_invoice'], 'string', 'max' => 25],
-            
         ];
     }
 
@@ -55,6 +55,8 @@ class Donasi extends \yii\db\ActiveRecord
             'nama' => 'Nama',
             'email' => 'Email',
             'pesan' => 'Pesan',
+            'buktitf_id' => 'Buktitf ID',
+            'buktitf' => 'Buktitf',
             'jumlah' => 'Jumlah',
         ];
     }

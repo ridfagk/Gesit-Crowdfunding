@@ -18,22 +18,23 @@ $program = ProgramDonasi::find()
     ->orderBy(['id' => SORT_DESC])
     ->one();
 ?>
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card card-body shadow-sm">
-                <center>
+<div class="container mb-4">
+
+  <div class="row justify-content-md-center">
+    <div class="col col-md-8 card-body shadow">
+    <div class="row py-4">
+        <div class="col-md-5">
+            
                     <?php
                         if (empty($banner)) {?>
                             <img src="https://icons-for-free.com/iconfiles/png/512/gallery+image+landscape+mobile+museum+open+line+icon-1320183049020185924.png" width="200px" alt="">
 
                     <?php    } else{ ?>
-                            <?= Html::img('@imageurl/admingesit/banner/'.$banner->banner,['width' => '200'],['class' => 'img-responsive'])?>
+                            <?= Html::img('@imageurl/admingesit/banner/'.$banner->banner,['width' => '250'],['class' => 'img-responsive'])?>
                     <?php    }  ?>
-                </center>
-            </div>
+            
         </div>
-        <div class="col-md-8">
+        <div class="col-md-7">
                 <h3>
                     <?= $program->title?>
                 </h3><hr>
@@ -43,4 +44,18 @@ $program = ProgramDonasi::find()
                 </p>
         </div>
     </div>
+
+    <div class="card card-body">
+        <?= $this->render('_formdonasi', [
+            'model' => $model,
+        ]) ?>
+        
+    </div>
+    
+
+
+    </div>
+  </div>
 </div>
+
+

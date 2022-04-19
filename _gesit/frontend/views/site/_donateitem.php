@@ -2,12 +2,27 @@
     use yii\helpers\Url;
     use yii\helpers\Html;
     use backend\models\BannerDonasi;
+    use backend\models\Donasi;
 
 $banner = BannerDonasi::find()
 ->where(['program_id' => $model->id ])
 //->groupBy('userid')
 ->orderBy(['id' => SORT_DESC])
 ->one();
+
+$donasi = Donasi::find()
+->where(['id_program' => $model->id ])
+->andWhere(['!=','transaction_status',0])
+//->groupBy('userid')
+->orderBy(['id' => SORT_DESC])
+->count();
+
+$jumlahdonasi = Donasi::find()
+->where(['id_program' => $model->id ])
+->andWhere(['!=','transaction_status',0])
+//->groupBy('userid')
+->orderBy(['id' => SORT_DESC])
+->sum('jumlah');
 
 
     $user = Yii::$app->user->identity->id;
@@ -31,7 +46,7 @@ $banner = BannerDonasi::find()
 
     <div class="card-body">
         <p style="font-weight:bold"><?= $model->title?></p>
-        <p><b>Rp 5.623.000</b> dari Rp 10.500.000</p>
+        <p><b>Rp <?=  $european_format_number = number_format($jumlahdonasi);?></b> dari Rp 10,500,000</p>
        
         <div class="progress" style="height: 8px;">
             <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -39,7 +54,7 @@ $banner = BannerDonasi::find()
 
         <div class="row">
             <div class="col-md-5">
-                <b>20</b> Donasi
+                <b><?= $donasi?></b> Donasi
             </div>
             <div class="col-md-7">
                 <button type="button" class="btn btn-primary btn-block">Donasi Sekarang</button>

@@ -15,6 +15,10 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use backend\models\Donasi;
+use backend\models\DonasiTemp;
+use backend\models\ProgramDonasi;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -79,8 +83,116 @@ class SiteController extends Controller
     }
 
     public function actionDetail()
-    {
-        return $this->render('detail.php');
+    {   
+
+        $model = new DonasiTemp();
+        $idx = $_GET['id'];
+        $model->buktitf_id =  time();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['site/bayar','invoice'=>$model->id_invoice,'program' => $idx, ]);
+        }else {
+            $model->loadDefaultValues();
+        }
+       
+
+        return $this->render('detail', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionBayar(){
+        
+        $idprogram = $_GET['program'];
+        $idinvoice = $_GET['invoice'];
+        $donasitemp = DonasiTemp::find()
+            ->where(['id_invoice'=>$idinvoice])
+            ->orderBy(['id' => SORT_DESC])
+            ->one();
+        $program = ProgramDonasi::find()
+            ->where(['id' => $idprogram ])
+            //->groupBy('userid')
+            ->orderBy(['id' => SORT_DESC])
+            ->one();
+        \Midtrans\Config::$serverKey = 'SB-Mid-server-OUlRGsIuhdzdZ5FT54YST1T8';
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+        $items = array(
+            array(
+            
+                'id'       => 'item1',
+                'price'    => $donasitemp->jumlah,
+                'quantity' => 1,
+                'name'     => $program->title,
+            )
+        );
+        
+        // Populate customer's info
+        $customer_details = array(
+            'first_name'       => $donasitemp->nama,
+            'email'            => $donasitemp->email,
+        );
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => rand(),
+                'gross_amount' => $donasitemp->jumlah,
+            ),
+
+            'customer_details' => $customer_details,
+            'item_details'=>$items
+            
+        );
+        
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        
+
+        return $this->render('bayar',[
+            'snapToken' => $snapToken,
+        ]);
+    }
+
+    public function actionFinish(){
+
+
+        
+        if (Yii::$app->request->isAjax){
+            $idprogram = $_POST['idprogram'];
+            $invoice = $_POST['invoice'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $pesan = $_POST['pesan'];
+            $jumlah = $_POST['jumlah'];
+            $order_id = $_POST['order_id'];
+            $payment_type = $_POST['payment_type'];
+            $transaction_time = $_POST['transaction_time'];
+            $transaction_status = $_POST['transaction_status'];
+           
+            $donasi = new Donasi();
+            Yii::$app->db->createCommand()->insert('donasi', [
+                'id_program' => $idprogram,
+                'id_invoice' => $invoice,
+                'nama' => $name,
+                'email' => $email,
+                'pesan' => $email,
+                'jumlah' => $jumlah,
+                'order_id' => $order_id, 
+                'payment_type' => $payment_type, 
+                'transaction_time' => $transaction_time, 
+                'transaction_status' => $transaction_status, 
+                
+            ])->execute();
+
+            Yii::$app->db->createCommand()->delete('donasi_temp', 'id_invoice ='.$invoice)->execute();
+           
+
+
+        }
+
     }
 
     /**
