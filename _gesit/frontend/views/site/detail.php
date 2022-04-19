@@ -21,7 +21,7 @@ $program = ProgramDonasi::find()
 <div class="container mb-4">
 
   <div class="row justify-content-md-center">
-    <div class="col col-md-5 card-body shadow">
+    <div class="col col-md-6 card-body shadow">
     <div class="row py-4">
         <div class="col-md-5">
             
