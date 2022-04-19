@@ -53,7 +53,7 @@ $model->id_program = $idx
     
 
     <div class="form-group">
-        <?= Html::submitButton('Simpan Program', ['class' => 'btn btn-success btn-block']) ?>
+        <?= Html::submitButton('Lanjut Pembayaran', ['class' => 'btn btn-primary btn-block']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

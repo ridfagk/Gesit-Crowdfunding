@@ -4,11 +4,17 @@ use yii\helpers\Html;
 use backend\models\BannerDonasi;
 use backend\models\ProgramDonasi;
 use backend\models\DonasiTemp;
+use backend\models\Donasi;
 
 $idprogram = $_GET['program'];
 $idinvoice = $_GET['invoice'];
 
 $donasitemp = DonasiTemp::find()
+    ->where(['id_invoice'=>$idinvoice])
+    ->orderBy(['id' => SORT_DESC])
+    ->one();
+
+$donasi = Donasi::find()
     ->where(['id_invoice'=>$idinvoice])
     ->orderBy(['id' => SORT_DESC])
     ->one();
@@ -25,16 +31,30 @@ $program = ProgramDonasi::find()
     ->one();
 ?>
 
-<h3><?= $program->title?></h3>
-<p>
-  Nominal Donasi : <b> Rp <?=  $european_format_number = number_format($donasitemp->jumlah); ?></b><br>
-  Nama Donatur : <?= $donasitemp->nama?><br>
-  Email : <?= $donasitemp->email?>
-</p>
+<?php
+  if (empty($donasi)){
+?>
+  <div class="row justify-content-md-center">
+    <div class="col col-md-5 card-body shadow">
+      <div>
+        <center>
+          <?= Html::img('@imageurl/admingesit/banner/'.$banner->banner,['width' => '200'],['class' => 'img-responsive'])?>
+          <h3 class="pt-2"><?= $program->title?></h3>
+        </center>
+      </div>
+        
+      <hr>
+          <p>
+            Nominal Donasi : <b> Rp <?=  $european_format_number = number_format($donasitemp->jumlah); ?></b><br>
+            Nama Donatur : <?= $donasitemp->nama?><br>
+            Email : <?= $donasitemp->email?>
+          </p>
 
-<button id="pay-button" class="btn btn-success">Pay!</button>
-    <pre><div id="result-json">JSON result will appear here after payment:<br></div></pre> 
-    <!-- TODO: Remove ".sandbox" from script src URL for production environment. Also input your client key in "data-client-key" -->
+        <button id="pay-button" class="btn btn-primary btn-block">Lanjut Pembayaran</button>
+            <!-- <pre><div id="result-json">JSON result will appear here after payment:<br></div></pre>  -->
+    </div>
+  </div>
+  <!-- TODO: Remove ".sandbox" from script src URL for production environment. Also input your client key in "data-client-key" -->
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-hm24ssPLoHtjIq6Z"></script>
     <script type="text/javascript">
       document.getElementById('pay-button').onclick = function(){
@@ -139,3 +159,7 @@ $program = ProgramDonasi::find()
         });
       };
     </script>
+<?php } else { ?>
+
+  <h3>Donasi anda dengan nomor invoice <?= $donasi->id_invoice?> dan nomor order <?= $donasi->order_id?> sudah tercatat, Silakan cek email anda dan selesaikan pembayaran</h3>
+<?php } ?>

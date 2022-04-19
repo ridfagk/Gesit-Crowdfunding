@@ -108,6 +108,10 @@ class SiteController extends Controller
             ->where(['id_invoice'=>$idinvoice])
             ->orderBy(['id' => SORT_DESC])
             ->one();
+        $donasi = Donasi::find()
+            ->where(['id_invoice'=>$idinvoice])
+            ->orderBy(['id' => SORT_DESC])
+            ->one();
         $program = ProgramDonasi::find()
             ->where(['id' => $idprogram ])
             //->groupBy('userid')
@@ -121,32 +125,63 @@ class SiteController extends Controller
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
-        $items = array(
-            array(
+        if (empty($donasi)) {
+            $items = array(
+                array(
+                
+                    'id'       => 'item1',
+                    'price'    => $donasitemp->jumlah,
+                    'quantity' => 1,
+                    'name'     => $program->title,
+                )
+            );
             
-                'id'       => 'item1',
-                'price'    => $donasitemp->jumlah,
-                'quantity' => 1,
-                'name'     => $program->title,
-            )
-        );
+            // Populate customer's info
+            $customer_details = array(
+                'first_name'       => $donasitemp->nama,
+                'email'            => $donasitemp->email,
+            );
+    
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => rand(),
+                    'gross_amount' => $donasitemp->jumlah,
+                ),
+    
+                'customer_details' => $customer_details,
+                'item_details'=>$items
+                
+            );
+        } else {
+            $items = array(
+                array(
+                
+                    'id'       => 'item1',
+                    'price'    => $donasi->jumlah,
+                    'quantity' => 1,
+                    'name'     => $program->title,
+                )
+            );
+            
+            // Populate customer's info
+            $customer_details = array(
+                'first_name'       => $donasi->nama,
+                'email'            => $donasi->email,
+            );
+    
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => rand(),
+                    'gross_amount' => $donasi->jumlah,
+                ),
+    
+                'customer_details' => $customer_details,
+                'item_details'=>$items
+                
+            );
+        }
+
         
-        // Populate customer's info
-        $customer_details = array(
-            'first_name'       => $donasitemp->nama,
-            'email'            => $donasitemp->email,
-        );
-
-        $params = array(
-            'transaction_details' => array(
-                'order_id' => rand(),
-                'gross_amount' => $donasitemp->jumlah,
-            ),
-
-            'customer_details' => $customer_details,
-            'item_details'=>$items
-            
-        );
         
         $snapToken = \Midtrans\Snap::getSnapToken($params);
         

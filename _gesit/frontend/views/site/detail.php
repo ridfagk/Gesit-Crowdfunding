@@ -21,16 +21,16 @@ $program = ProgramDonasi::find()
 <div class="container mb-4">
 
   <div class="row justify-content-md-center">
-    <div class="col col-md-8 card-body shadow">
+    <div class="col col-md-5 card-body shadow">
     <div class="row py-4">
         <div class="col-md-5">
             
                     <?php
                         if (empty($banner)) {?>
-                            <img src="https://icons-for-free.com/iconfiles/png/512/gallery+image+landscape+mobile+museum+open+line+icon-1320183049020185924.png" width="200px" alt="">
+                            <img src="https://icons-for-free.com/iconfiles/png/512/gallery+image+landscape+mobile+museum+open+line+icon-1320183049020185924.png" width="160px" alt="">
 
                     <?php    } else{ ?>
-                            <?= Html::img('@imageurl/admingesit/banner/'.$banner->banner,['width' => '250'],['class' => 'img-responsive'])?>
+                            <?= Html::img('@imageurl/admingesit/banner/'.$banner->banner,['width' => '160'],['class' => 'img-responsive'])?>
                     <?php    }  ?>
             
         </div>
