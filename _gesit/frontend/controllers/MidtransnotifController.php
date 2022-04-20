@@ -48,7 +48,7 @@ class MidtransnotifController extends Controller
                 'transaction_status' => $result['transaction_status']
             ];
             if ($result['transaction_status'] == "settlement") {
-                Yii::$app->db->createCommand()->update('donasi', ['status' => 1], 'order_id ='.$order_id)->execute();
+                Yii::$app->db->createCommand()->update('donasi', [$data], 'order_id ='.$order_id)->execute();
             }
 
     
