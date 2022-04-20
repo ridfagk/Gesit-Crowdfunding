@@ -1,5 +1,9 @@
 <?php
 use yii\helpers\Html;
+use backend\models\User;
+
+$id = Yii::$app->user->identity->id;
+$user = User::find()->where(['id'=>$id])->one();
 
 ?>
 <aside class="main-sidebar sidebar-dark-orange elevation-4">
@@ -15,10 +19,12 @@ use yii\helpers\Html;
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="<?=$assetDir?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            <?php
+                    echo Html::img('@imageurl/admingesit/img/profile.png',['style'=>'object-fit:cover;border-radius:100%;','width' => '30px','height'=>'30px']) ;
+                ?>
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block"><?= $user->username?></a>
             </div>
         </div>
 

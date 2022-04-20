@@ -25,7 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['class' => 'yii\grid\SerialColumn'],
 
                 //'id',
-                'id_program',
+                [
+                    'attribute'=>'id_program',
+                    'value'=>'program.title'
+                ],
                 //'id_donatur',
                 'id_invoice',
                 'nama:ntext',

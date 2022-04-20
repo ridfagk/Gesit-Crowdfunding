@@ -34,6 +34,7 @@ class DonasiTemp extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['nama', 'email','jumlah'], 'required', 'message'=>'{attribute} tidak boleh kosong'],
             [['id_program', 'buktitf_id', 'id_donatur'], 'integer'],
             ['id_invoice', 'autonumber', 'format' => '{my}????'],
             [['jumlah'], 'string', 'min' => 5 , 'tooShort' => 'Nominal donasi minimal Rp. 10.000' ],
@@ -57,7 +58,7 @@ class DonasiTemp extends \yii\db\ActiveRecord
             'pesan' => 'Pesan',
             'buktitf_id' => 'Buktitf ID',
             'buktitf' => 'Buktitf',
-            'jumlah' => 'Jumlah',
+            'jumlah' => 'Nominal',
         ];
     }
 }

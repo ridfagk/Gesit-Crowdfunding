@@ -32,7 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     //'id',
                     'title:ntext',
-                    'banner:ntext',
+                    [
+                        'attribute' => 'banner',
+                        'format' => 'html',    
+                        'value' => function ($data) {
+                            return Html::img(Yii::getAlias('@imageurl').'/admingesit/banner/'. $data['banner'],
+                                ['width' => '100px']);
+                        },
+                    ],
                     'deskripsi:ntext',
                     'kategori',
                     ['class' => 'yii\grid\ActionColumn',

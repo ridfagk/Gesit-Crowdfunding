@@ -36,7 +36,7 @@ class Donasi extends \yii\db\ActiveRecord
             [['id_program', 'buktitf_id', 'id_donatur'], 'integer'],
             
             [['jumlah'], 'string', 'min' => 5 , 'tooShort' => 'Nominal donasi minimal Rp. 10.000' ],
-            [['nama', 'order_id', 'payment_type', 'transaction_status', 'email', 'pesan', 'buktitf'], 'string'],
+            [['nama', 'pdf_url','order_id', 'payment_type', 'transaction_status', 'email', 'pesan', 'buktitf'], 'string'],
             [['id_invoice'], 'string', 'max' => 25],
             
         ];
@@ -57,5 +57,10 @@ class Donasi extends \yii\db\ActiveRecord
             'pesan' => 'Pesan',
             'jumlah' => 'Jumlah',
         ];
+    }
+
+    public function getProgram()
+    {
+        return $this->hasOne(ProgramDonasi::className(), ['id' => 'id_program']);
     }
 }

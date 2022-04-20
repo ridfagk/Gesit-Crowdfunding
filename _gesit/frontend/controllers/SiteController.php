@@ -203,6 +203,7 @@ class SiteController extends Controller
             $pesan = $_POST['pesan'];
             $jumlah = $_POST['jumlah'];
             $order_id = $_POST['order_id'];
+            $pdf_url = $_POST['pdf_url'];
             $payment_type = $_POST['payment_type'];
             $transaction_time = $_POST['transaction_time'];
             $transaction_status = $_POST['transaction_status'];
@@ -215,6 +216,7 @@ class SiteController extends Controller
                 'email' => $email,
                 'pesan' => $email,
                 'jumlah' => $jumlah,
+                'pdf_url' => $pdf_url,
                 'order_id' => $order_id, 
                 'payment_type' => $payment_type, 
                 'transaction_time' => $transaction_time, 

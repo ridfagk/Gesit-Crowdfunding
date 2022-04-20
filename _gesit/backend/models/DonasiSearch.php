@@ -18,7 +18,7 @@ class DonasiSearch extends Donasi
     {
         return [
             [['id', 'id_program', 'id_donatur', 'jumlah'], 'integer'],
-            [['id_invoice', 'nama', 'email', 'pesan'], 'safe'],
+            [['id_invoice', 'nama', 'email', 'transaction_status', 'pesan'], 'safe'],
         ];
     }
 
@@ -67,7 +67,8 @@ class DonasiSearch extends Donasi
         $query->andFilterWhere(['like', 'id_invoice', $this->id_invoice])
             ->andFilterWhere(['like', 'nama', $this->nama])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'pesan', $this->pesan]);
+            ->andFilterWhere(['like', 'pesan', $this->pesan])
+            ->andFilterWhere(['like', 'transaction_status', $this->transaction_status]);
 
         return $dataProvider;
     }

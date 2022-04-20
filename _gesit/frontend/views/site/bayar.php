@@ -76,6 +76,7 @@ $program = ProgramDonasi::find()
                 email:'<?= $donasitemp->email?>',
                 pesan:'<?= $donasitemp->pesan?>',
                 jumlah:'<?= $donasitemp->jumlah?>',
+                pdf_url:dataObj.pdf_url,
                 order_id:dataObj.order_id,
                 payment_type:dataObj.payment_type,
                 transaction_time: dataObj.transaction_time,
@@ -108,6 +109,7 @@ $program = ProgramDonasi::find()
                 email:'<?= $donasitemp->email?>',
                 pesan:'<?= $donasitemp->pesan?>',
                 jumlah:'<?= $donasitemp->jumlah?>',
+                pdf_url:dataObj.pdf_url,
                 order_id:dataObj.order_id,
                 payment_type:dataObj.payment_type,
                 transaction_time: dataObj.transaction_time,
@@ -140,6 +142,7 @@ $program = ProgramDonasi::find()
                 email:'<?= $donasitemp->email?>',
                 pesan:'<?= $donasitemp->pesan?>',
                 jumlah:'<?= $donasitemp->jumlah?>',
+                pdf_url:dataObj.pdf_url,
                 order_id:dataObj.order_id,
                 payment_type:dataObj.payment_type,
                 transaction_time: dataObj.transaction_time,
@@ -161,5 +164,18 @@ $program = ProgramDonasi::find()
     </script>
 <?php } else { ?>
 
-  <h3>Donasi anda dengan nomor invoice <?= $donasi->id_invoice?> dan nomor order <?= $donasi->order_id?> sudah tercatat, Silakan cek email anda dan selesaikan pembayaran</h3>
+  <div class="row justify-content-md-center">
+    <div class="col col-md-5 card-body shadow">
+      <center>
+        <?= Html::img('@imageurl/img/donasi-01.png',['width' => '330'],['class' => 'img-responsive'])?>
+        <p>Terimakasih sudah berdonasi. Silakan cek email anda dan selesaikan pembayaran</p>
+        
+        <p>atau unduh panduan pembayaran dibawah ini</p>
+        
+        <a href="<?= $donasi->pdf_url?>" class="btn btn-primary" target="_blank" role="button" aria-pressed="true">Download Intruksi Pembayaran</a>
+        
+      </center>
+    </div>
+  </div>
+  
 <?php } ?>
